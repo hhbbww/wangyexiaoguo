@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	.box{
+		width: 100px;
+		height: 100px;
+		background: red;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+</style>
+<body>
+	<div class="box"></div>
+</body>
+<script>
+	window.onload = function(){
+		let box = document.getElementsByClassName('box')[0];
+		let float = new Float(box);
+		// console.log(float.move());
+		function Float(obj){
+			this.obj=obj;
+			this.maxX=window.innerWidth-this.obj.offsetWidth;
+			this.X=1;
+		}
+		Float.prototype.stop=function(){
+			clearInterval(this.t);
+		}
+		Float.prototype.resize=function(){
+			this.maxX= window.innerWidth - this.obj.offsetWidth;
+		}
+		Float.prototype.move =function() {
+			let that =this;
+			that.t =setInterval(function(){
+				let lefts = that.obj.offsetLeft + that.X;
+				// console.log(lefts)
+				if(lefts==that.maxX){
+					// lefts=that.maxX;
+					that.X=  -1;
+
+				}
+				if(lefts==0){
+					// lefts=0;
+					that.X=  1;
+				}
+				that.obj.style.left = lefts + 'px';
+
+			},4)
+		}
+		box.onmouseover = function(){
+			float.stop()
+		}
+		box.onmouseout=function(){
+			float.move()
+		}
+		float.move()
+		float.resize()
+	}
+</script>
+</html>
